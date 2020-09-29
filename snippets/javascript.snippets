@@ -1,0 +1,94 @@
+snippet afc "Async function in class"
+	/**
+	 * ${3}
+	 */
+	 async ${1}(${2}) {
+
+	 }
+
+snippet fc "Function in class"
+	/**
+	 * ${3}
+	 */
+	 async ${1}(${2}) {
+
+	 }
+
+snippet exp "Express router boilerplate"
+	const express = require('express')
+	const router = express.Router()
+	const {} = require('../middlewares')
+
+	/**
+	* @route GET/POST /api/${1}
+	*/
+	router.route('/').get().post()
+
+	/**
+	* @route GET/PUT/DELETE /api/$1/:id
+	*/
+	router.route('/:id').get().put().delete()
+
+	module.exports = router;
+
+snippet mong "Mongoose schema boilerplate"
+	const mongoose = require('mongoose')
+	const Schema = mongoose.Schema
+
+	const ${1}Schema = new Schema({
+		${3}
+	})
+
+	const ${2} = mongoose.model('$2', $1Schema)
+
+	module.exports = $2
+
+
+snippet rget "Route get"
+	/**
+	* @route ${1}
+	*/
+	router.get('/${2}', [${4}], ${3})
+
+snippet req "Require"
+	const ${2} = require('${1}')
+
+snippet xp
+	/**
+	* ${1}
+	*/
+	exports.${2} = async (req, res) => {
+		try {
+			${3}
+		} catch(err) {
+			throw err
+		}
+	}
+
+snippet xpt
+	/**
+	* ${1}
+	*/
+	exports.${2} = (type) => {
+		return async (req, res) => {
+			try {
+				${3}
+			} catch(err) {
+				throw err
+			}
+		}
+	}
+
+snippet try "try/catch"
+	try {
+		${1}
+	} catch(err) {
+		${2}
+	}
+
+snippet rs
+	res.status(${1}).json(${2})
+
+snippet rj
+	res.json(${1})
+
