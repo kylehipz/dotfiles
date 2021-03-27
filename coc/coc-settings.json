@@ -1,0 +1,13 @@
+{
+  "go.trace.server": "verbose",
+  "suggest.noselect": false,
+  "suggest.enablePreview": true,
+  "suggest.removeDuplicateItems": true,
+  "coc.preferences.jumpCommand": "drop",
+  "coc.preferences.rootPatterns": [".git", ".vscode"],
+  "coc.preferences.formatOnSaveFiletypes": ["python", "javascript", "javascriptreact", "typescriptreact", "css", "go", "typescript"],
+  "tsserver.enable": true,
+  "tsserver.enableJavascript": true,
+  "go.enable": true,
+  "codeLens.enable": true
+}

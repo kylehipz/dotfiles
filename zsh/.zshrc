@@ -5,16 +5,17 @@ POWERLEVEL9K_HOME_ICON="✔"
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
 POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="↳ "
+POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR="▶"
 #POWERLEVEL9K_OK_ICON="✔ "
 #POWERLEVEL9K_FAIL_ICON="✘ "
 
 POWERLEVEL9K_VCS_GIT_BITBUCKET_ICON=' '
-POWERLEVEL9K_VCS_CLEAN_FOREGROUND='black'
-POWERLEVEL9K_VCS_CLEAN_BACKGROUND='228'
-POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='black'
-POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='014'
-POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='228'
-POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='black'
+#POWERLEVEL9K_VCS_CLEAN_FOREGROUND='black'
+#POWERLEVEL9K_VCS_CLEAN_BACKGROUND='228'
+#POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='black'
+#POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='228'
+#POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='228'
+#POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='black'
 
 # If you come from bash you might have to change your $PATH.
  #export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -36,16 +37,15 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 
 POWERLEVEL9K_VCS_GIT_ICON=$'\uF113 '
 
-POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND="228"
-POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="black"
+POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="white"
 #POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)
 POWERLEVEL9K_DISABLE_RPROMPT=true
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(custom_apple_icon dir vcs)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
 #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status time)
 
 #POWERLEVEL9K_CUSTOM_APPLE_ICON="echo ☕ "
 POWERLEVEL9K_CUSTOM_APPLE_ICON="echo  "
-POWERLEVEL9K_CUSTOM_APPLE_ICON_BACKGROUND="228"
+POWERLEVEL9K_CUSTOM_APPLE_ICON_BACKGROUND="white"
 POWERLEVEL9K_CUSTOM_APPLE_ICON_FOREGROUND="black"
 #POWERLEVEL9K_CUSTOM_APPLE_ICON_BACKGROUND="248"
 #POWERLEVEL9K_CUSTOM_APPLE_ICON_FOREGROUND="black"
@@ -57,8 +57,8 @@ POWERLEVEL9K_CUSTOM_APPLE_ICON_FOREGROUND="black"
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
 POWERLEVEL9K_SHORTEN_STRATEGY=truncate_folders
 POWERLEVEL9K_SHORTEN_DELIMITER=""
-POWERLEVEL9K_DIR_HOME_BACKGROUND="228"
-POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND="228"
+POWERLEVEL9K_DIR_HOME_BACKGROUND="white"
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND="white"
 #POWERLEVEL9K_VCS_MASTER_BACKGROUND="grey"
 
 
@@ -79,7 +79,7 @@ POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND="228"
 # DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
- export UPDATE_ZSH_DAYS=3
+ #export UPDATE_ZSH_DAYS=3
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -88,7 +88,6 @@ POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND="228"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -114,10 +113,12 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git node laravel vi-mode sudo zsh-syntax-highlighting docker-compose)
+plugins=(git node laravel vi-mode sudo zsh-syntax-highlighting docker-compose zsh-autosuggestions)
 #alias ls="colorls"
-alias vim="nvim"
-#plugins=(git rails rails3 ruby capistrano bundler heroku rake rvm autojump command-not-found python pip github gnu-utils history-substring-search zsh-syntax-highlighting)
+#alias vim="nvim"
+
+alias tx="tmuxinator"
+alias dc="docker-compose"
 
 
 bindkey -v
@@ -130,11 +131,7 @@ bindkey -s qw '\e'
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+export EDITOR='vim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -153,7 +150,7 @@ bindkey -s qw '\e'
  alias nvc="nvim ~/.config/nvim/init.vim"
  alias k="kubectl"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+#source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 alias phps="nvim ~/.config/nvim/snippets/php.snippets"
 alias phpb="nvim ~/.config/nvim/snippets/blade.snippets"
 alias pamv="php artisan make:view "
@@ -198,9 +195,20 @@ export FZF_DEFAULT_COMMAND='ag -g ""'
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
+# Python virtual environments
 export WORKON_HOME=$HOME/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 source /usr/local/bin/virtualenvwrapper.sh
 
+# Cuda env
+export LD_LIBRARY_PATH=/usr/lib/cuda/lib64:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/lib/cuda/include:$LD_LIBRARY_PATH
+
 export PATH=$PATH:/usr/local/go/bin
+export GOPATH=/home/kyle/go
+export PATH=$PATH:$GOPATH/bin
+export GOBIN=/home/kyle/go/bin
+export GO111MODULE=auto

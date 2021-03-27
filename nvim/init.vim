@@ -3,8 +3,8 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'leafgarland/typescript-vim'
 Plug 'yuezk/vim-js'
-Plug 'fatih/vim-go'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -15,11 +15,16 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'qpkorr/vim-bufkill'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
-Plug 'junegunn/fzf.vim'
-Plug 'garbas/vim-snipmate'
+Plug 'junegunn/fzf.vim', 
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
+"Plug 'garbas/vim-snipmate'
 Plug 'mattn/emmet-vim'
 Plug 'zchee/deoplete-jedi'
 Plug 'tpope/vim-fugitive'
+Plug 'mhinz/vim-signify'
+Plug 'tpope/vim-rhubarb'
+Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'mhinz/vim-signify'
 Plug 'vim-airline/vim-airline'
@@ -27,6 +32,9 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/nerdtree'
 Plug '~/.fzf'
+Plug 'chrisbra/Colorizer'
+"Plug 'fatih/vim-go'
+Plug 'unblevable/quick-scope'
 " Colorschemes
 " Initialize plugins
 call plug#end()
@@ -38,15 +46,16 @@ autocmd BufRead,BufNewFile *.ts,*.htm,*.html,*.php,*.pug,*.ejs,*.yml,*.yaml,*.js
 "set laststatus=10
 "autocmd FileType java setlocal omnifunc=javacomplete#Complete
 "let g:neomake_javascript_enabled_makers = ['eslint']
+set encoding=UTF-8
 
-"set colorcolumn=80
+set colorcolumn=130
 
 au BufEnter,BufNew *.ejs :set filetype=html
 
 
  "Autocomplete
 let g:deoplete#enable_at_startup = 1
-let g:python3_host_prog = '/usr/bin/python3.6'
+let g:python3_host_prog = '/usr/bin/python3'
 let g:deoplete#sources#jedi#show_docstring = 1
 let g:deoplete#auto_complete_delay = 0
 let g:deoplete#sources#ternjs#docs = 1
@@ -95,7 +104,9 @@ nmap <silent> <c-j> :wincmd j<CR>
 nmap <silent> <c-h> :wincmd h<CR>
 nmap <silent> <c-l> :wincmd l<CR>
 inoremap qw <ESC>
-nnoremap <C-s> :w <CR>
+"nnoremap <C-s> :CocRestart <CR><CR> :w <CR>
+nnoremap <C-e> <ESC>:CocRestart <CR><CR>
+nnoremap <C-s> <ESC>:w<CR>
 inoremap <C-s> <ESC>:w<CR>
 
 inoremap <expr> <C-j> ((pumvisible())?("\<C-n>"):("j"))
@@ -107,6 +118,24 @@ let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 map <C-t> :NERDTreeToggle<CR>
 
+"let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#left_sep          = '▶'
+let g:airline#extensions#tabline#left_alt_sep      = '▶'
+let g:airline_left_sep          = '▶'
+let g:airline_left_alt_sep      = '▶'
+let g:airline_right_sep         = '◀'
+let g:airline_right_alt_sep     = '◀'
+let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+let g:airline#extensions#readonly#symbol   = '⊘'
+let g:airline#extensions#linecolumn#prefix = '¶'
+let g:airline#extensions#paste#symbol      = 'ρ'
+"let g:airline_symbols.linenr    = '␊'
+"let g:airline_symbols.branch    = '⎇'
+"let g:airline_symbols.paste     = 'ρ'
+"let g:airline_symbols.paste     = 'Þ'
+"let g:airline_symbols.paste     = '∥'
+"let g:airline_symbols.whitespace = 'Ξ'
 "let g:airline_left_sep = ''
 "let g:airline_right_sep = ''
 "let g:airline_left_sep = ''
@@ -150,12 +179,13 @@ nnoremap <right> :echo "Don't use your fucking arrow keys" <CR>
 "map <left> :vertical res-7<CR>
 "map <right> :vertical res+7<CR>
 
-map <c-p> :FZF<CR>
+map <c-p> :FZF <CR>
 
 set nohlsearch
 
 let g:user_emmet_leader_key=','
 
+let mapleader = ","
 nmap // <leader>c<space>
 vmap // <leader>c<space>
 "nnoremap <c-c> :call NERDComment(0,"toggle")<CR>
@@ -196,6 +226,59 @@ set signcolumn=yes
 	  "\ pumvisible() ? "\<C-n>" :
 	  "\ <SID>check_back_space() ? "\<TAB>" :
 	  "\ coc#refresh()
+
+highlight SignColumn guibg=none
+
+"let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+"let $FZF_DEFAULT_OPTS='--color=fg:14,bg:-1,hl:1,fg+:#ffff7c,bg+:0,hl+:1 --color=info:0,prompt:0,pointer:12,marker:4,spinner:11,header:-1 --layout=reverse  --margin=1,4'
+"let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+
+"function! FloatingFZF()
+  "let buf = nvim_create_buf(v:false, v:true)
+  "call setbufvar(buf, '&signcolumn', 'no')
+
+  "let height = float2nr(10)
+  "let width = float2nr(80)
+  "let horizontal = float2nr((&columns - width) / 2)
+  "let vertical = 1
+
+  "let opts = {
+		"\ 'relative': 'editor',
+		"\ 'row': vertical,
+		"\ 'col': horizontal,
+		"\ 'width': width,
+		"\ 'height': height,
+		"\ 'style': 'minimal'
+		"\ }
+
+  "call nvim_open_win(buf, v:true, opts)
+"endfunction
+
+"au BufRead,BufNewFile *.ts set syntax=javascript
+"
+
+
+" -------------------------------------------------------------------------------------------------
+" coc.nvim default settings
+" -------------------------------------------------------------------------------------------------
+
+" if hidden is not set, TextEdit might fail.
+set hidden
+" Better display for messages
+set cmdheight=2
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+" always show signcolumns
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" disable vim-go :GoDef short cut (gd)
+" this is handled by LanguageClient [LC]
+let g:go_def_mapping_enabled = 0
+
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 inoremap <silent><expr> <TAB>
@@ -302,10 +385,27 @@ nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
 nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+"nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+"" Do default action for previous item.
+"nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
-highlight SignColumn guibg=none
+let g:gitgutter_async=0
+
+" git
+nnoremap <leader>gg :G <CR>
+nnoremap <leader>gs :G status<CR>
+nnoremap <leader>gc :G commit<CR>
+nnoremap <leader>gl :G log<CR>
+nnoremap <leader>gp :G push<CR>
+nnoremap <leader>gpu :G push -u origin 
+
+" quick scope
+" Trigger a highlight in the appropriate direction when pressing these keys:
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+highlight QuickScopePrimary guifg='#00C7DF' gui=underline ctermfg=155 cterm=underline
+highlight QuickScopeSecondary guifg='#afff5f' gui=underline ctermfg=81 cterm=underline
+
+let g:qs_max_chars=150
